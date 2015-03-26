@@ -12,7 +12,7 @@ def rand_str(max_len=15):
     return string.join(random.sample(['z','y','x','w','v','u','t','s','r','q','p','o','n','m','l','k','j','i','h','g','f','e','d','c','b','a','#','%','^','&','*'], rand_len)).replace(' ','')
 
 class ConsistentHash(object):
-    def __init__(self, servers=None, rep=1):
+    def __init__(self, servers=None, rep=3):
         self.rep = rep
         self.key_srv_map = dict()
         self._sorted_keys = []
@@ -61,11 +61,13 @@ if __name__=='__main__':
     server_list = ['192.168.96.1:8649',
                    '192.168.96.2:8649',
                    '192.168.96.3:8649',
-                   '192.168.96.4:8649']
+                   '192.168.96.4:8649',
+                   '192.168.96.5:8649',
+                   '192.168.96.6:8649',
+                   '192.168.96.7:8649',
+                   '192.168.96.8:8649']
 
-    ch = ConsistentHash(servers=server_list)
-
-    ch.print_ring()
+    ch = ConsistentHash(servers=server_list, rep=3)
 
     cnt_dict = dict()
     #rand_sample
@@ -82,9 +84,9 @@ if __name__=='__main__':
     print '%d servers' %len(server_list)
     v_print(cnt_dict)
 
-    ch.remove_server('192.168.96.3:8649')
+    rand_rm_srv = server_list[random.randint(0, len(server_list)-1)]
 
-    ch.print_ring()
+    ch.remove_server(rand_rm_srv)
 
     cnt_dict = dict()
     for samp in rand_sample:
@@ -93,6 +95,6 @@ if __name__=='__main__':
             cnt_dict[node] += 1
         else:
             cnt_dict[node] = 1
-    print 'remove: 192.168.96.3:8649'
+    print 'remove: %s' %rand_rm_srv
     v_print(cnt_dict)
 
