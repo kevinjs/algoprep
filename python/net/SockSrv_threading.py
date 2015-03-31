@@ -12,7 +12,7 @@ BUF_SIZE = 1024
 
 def client(ip, port, msg):
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    sock.connect((ip, addr))
+    sock.connect((ip, port))
 
     try:
 	sock.sendall(msg)
@@ -26,7 +26,6 @@ class ThreadingServerRequestHandler(SocketServer.BaseRequestHandler):
 	data = self.request.recv(BUF_SIZE)
 	cur_thread = threading.current_thread()
 	resp = '%s: %s' %(cur_thread, data)
-	print 'Server sending response: %s' %resp
 	self.request.sendall(resp)
 
 class ThreadingServer(SocketServer.ThreadingMixIn, SocketServer.TCPServer,):
