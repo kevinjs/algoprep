@@ -24,7 +24,7 @@ class ForkingClient(object):
 	print 'Send %s char' % send_data_len
 
 	resp = self.sock.recv(BUF_SIZE)
-	print 'PID: %s received: %s' %(cur_pid, resp[:])
+	print 'PID: %s received: %s' %(cur_pid, resp[5:])
 
     def shutdown(self):
 	self.sock.close()
@@ -44,9 +44,10 @@ class ForkingServer(SocketServer.ForkingMixIn, SocketServer.TCPServer,):
 
 def main():
     # tell kernel to choose port randomly
+    #import pdb;pdb.set_trace()
     server = ForkingServer((SERVER_HOST, SERVER_PORT), ForkingServerRequestHandler)
     ip, port = server.server_address
-    server_thread = threading.Thread(target=server.server_forever)
+    server_thread = threading.Thread(target=server.serve_forever)
     server_thread.setDaemon(True)
     server_thread.start()
 
