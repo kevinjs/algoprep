@@ -23,12 +23,12 @@ def modify_heap(arr, idx_root):
     r_c = get_right_child(idx_root)
 
     if l_c < len(arr):
-        if arr[idx_root] < arr[l_c]:
+        if arr[idx_root] > arr[l_c]:
             base.swap(arr, idx_root, l_c)
         if get_left_child(l_c) or get_right_child(l_c):
             modify_heap(arr, l_c)
     if r_c < len(arr):
-        if arr[idx_root] < arr[r_c]:
+        if arr[idx_root] > arr[r_c]:
             base.swap(arr, idx_root, r_c)
         if get_left_child(r_c) or get_right_child(r_c):
             modify_heap(arr, r_c)
